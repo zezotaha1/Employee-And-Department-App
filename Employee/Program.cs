@@ -1,8 +1,17 @@
+using Employee.Model;
+using Microsoft.EntityFrameworkCore;
+
 internal class Program
 {
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+
+        builder.Services.AddDbContext<AppDbContext>(op =>
+        op.UseSqlServer(builder.Configuration.GetConnectionString("sqlServerConnectionString")));
+
+
 
         // Add services to the container.
 

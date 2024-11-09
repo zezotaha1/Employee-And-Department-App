@@ -1,0 +1,52 @@
+<div class="nav">
+    <div class="part" (click)="showAllDepartment()">All Department</div>
+    <div class="part" (click)="showAddDepartment()">Add Department</div>
+    <div class="part" (click)="showUpdateDepartment()">Update Department</div>
+    <div class="part" (click)="showDeleteDepartment()">Delete Department</div>
+</div>
+<div class="con" id="allDepartment">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+        </tr>
+        <tr *ngFor="let department of departments">
+            <td>{{department.departmentID}}</td>
+            <td>{{department.departmentName}}</td>
+            <td>{{department.location}}</td>
+        </tr>
+    </table>
+</div>
+<div id="addDepartment" class="con">
+    <form (submit)=" addDepartment() ">
+        <label>Department Name: </label>
+        <input [(ngModel)]="newDepartment.departmentName " name="departmentName " required>
+        <label>Location: </label>
+        <input [(ngModel)]="newDepartment.location " name="location " required>
+        <button type="submit ">Add Department</button>
+    </form>
+</div>
+<div id="updateDepartment" class="con">
+    <form (submit)=" updateDepartment() ">
+        <label>Department ID: </label>
+        <input type="number " min=1 #id (change)="getDepartment(+id.value) " [(ngModel)]="updatedDepartment.departmentID " name="departmentID " required>
+        <label>Department Name: </label>
+        <input [(ngModel)]="updatedDepartment.departmentName " name="departmentName " required>
+        <label>Location: </label>
+        <input [(ngModel)]="updatedDepartment.location " name="location " required>
+        <label>Department Status:</label>
+        <select [(ngModel)]="updatedDepartment.status " name="status " required>
+            <option [ngValue]="true ">isActive</option>
+            <option [ngValue]="false ">Deleted</option>
+        </select>
+        <button type="submit ">Update Department</button>
+    </form>
+</div>
+<div id="deleteDepartment" class="con">
+    <form (submit)="deleteDepartment(+deletid.value) ">
+        <label>Department ID: </label>
+        <input type="number " min=1 #deletid required>
+        <button type="submit ">Delet Department</button>
+    </form>
+</div>

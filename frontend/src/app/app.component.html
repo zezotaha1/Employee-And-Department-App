@@ -1,0 +1,19 @@
+<body>
+    <div class="container">
+        <div class="grid">
+            <div class="header">
+                <div class="links" id="empLink" (click)=" showEmployee() ">
+                    Employee
+                </div>
+                <div class="links" id="departLink" (click)=" showDepartment() ">
+                    Department
+                </div>
+            </div>
+            <div class="body">
+                <app-department id="depart"></app-department>
+                <app-employee id="emp"></app-employee>
+            </div>
+        </div>
+    </div>
+
+</body>

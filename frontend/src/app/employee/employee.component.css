@@ -1,0 +1,46 @@
+.nav {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: space-evenly;
+    align-content: space-evenly;
+    background-color: antiquewhite;
+    height: 50px;
+    border-radius: 15px;
+}
+
+.part {
+    font-weight: bold;
+    text-align: center;
+    border-radius: 15px;
+}
+
+.con {
+    border: 1px solid var(--baseColor);
+    border-radius: var(--borderRadius);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    max-width: calc(100% - 2em);
+    margin: 1em auto;
+    overflow: hidden;
+    width: 800px;
+    display: none;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1;
+}
+
+label {
+    height: 25px;
+    font-weight: bold;
+}
+
+button,
+input,
+select {
+    height: 40px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}

@@ -1,0 +1,100 @@
+<div class="nav">
+    <div class="part" (click)="showAddEmployee()">Add Employee</div>
+    <div class="part" (click)="showUpdateEmployee()">Update Employee</div>
+    <div class="part" (click)="showDeleteEmployee()">Delete Employee</div>
+</div>
+<div class="con" id="addEmployee">
+    <form (submit)="addEmployee()">
+        <label>First Name: </label>
+        <input [(ngModel)]="newEmployee.firstName" name="firstName" required>
+        <label>Last Name: </label>
+        <input [(ngModel)]="newEmployee.lastName" name="lastName" required>
+        <label>Gender:</label>
+        <select [(ngModel)]="newEmployee.gender " name="gender" required>
+                <option [ngValue]="true">Male</option>
+                <option [ngValue]="false">Female</option>
+            </select>
+
+
+        <label>Date Of Birth:</label>
+        <input type="date" [(ngModel)]="newEmployee.dateOfBirth " name="dateOfBirth" required>
+        <label>Hire Date:</label>
+        <input type="date" [(ngModel)]="newEmployee.hireDate " name="hireDate" required>
+
+        <label>Job Title:</label>
+        <input [(ngModel)]="newEmployee.jobTitle" name="jobTitle" required>
+        <label>Email: </label>
+        <input type="email" [(ngModel)]="newEmployee.email" name="email" required>
+        <label>Phone Number:</label>
+        <input minLength=11 maxLength=11 [(ngModel)]="newEmployee.phoneNumber " name="phoneNumber " required>
+
+        <label>Salary:</label>
+        <input type="number" min=1 [(ngModel)]="newEmployee.salary " name="salary " required>
+
+        <label>Address:</label>
+        <input [(ngModel)]="newEmployee.address " name="address " required>
+
+        <label>Department:</label>
+        <select [(ngModel)]="newEmployee.departmentID " name="departmentID " required>
+                <option *ngFor="let department of departments" value={{department.departmentID}}>{{department.departmentName}}</option>
+            </select>
+
+
+        <button type=" submit ">Add Employee</button>
+    </form>
+</div>
+<div class="con" id="updateEmployee">
+    <form (submit)="updateEmployee()">
+        <label>Department ID: </label>
+        <input type="number" min=1 #id (change)="getEmployee(+id.value)" [(ngModel)]="updatedEmployee.employeeID " name="employeeID " required>
+        <label>First Name: </label>
+        <input [(ngModel)]="updatedEmployee.firstName" name="firstName" required>
+        <label>Last Name: </label>
+        <input [(ngModel)]="updatedEmployee.lastName" name="lastName" required>
+        <label>Gender:</label>
+        <select [(ngModel)]="updatedEmployee.gender " name="gender" required>
+            <option [ngValue]="true">Male</option>
+            <option [ngValue]="false">Female</option>
+        </select>
+
+
+        <label>Date Of Birth:</label>
+        <input type="date" [(ngModel)]="updatedEmployee.dateOfBirth " name="dateOfBirth" required>
+        <label>Hire Date:</label>
+        <input type="date" [(ngModel)]="updatedEmployee.hireDate " name="hireDate" required>
+
+        <label>Job Title:</label>
+        <input [(ngModel)]="updatedEmployee.jobTitle" name="jobTitle" required>
+        <label>Email: </label>
+        <input type="email" [(ngModel)]="updatedEmployee.email" name="email" required>
+        <label>Phone Number:</label>
+        <input minLength=11 maxLength=11 [(ngModel)]="updatedEmployee.phoneNumber " name="phoneNumber " required>
+
+        <label>Salary:</label>
+        <input type="number" min=1 [(ngModel)]="updatedEmployee.salary " name="salary " required>
+
+        <label>Address:</label>
+        <input [(ngModel)]="updatedEmployee.address " name="address " required>
+
+        <label>Department:</label>
+        <select [(ngModel)]="updatedEmployee.departmentID " name="departmentID " required>
+            <option *ngFor="let department of departments" value={{department.departmentID}}>{{department.departmentName}}</option>
+        </select>
+
+
+        <label>Status:</label>
+        <select [(ngModel)]="updatedEmployee.status " name="status " required>
+            <option [ngValue]="true ">isActive</option>
+            <option [ngValue]="false ">Deleted</option>
+        </select>
+
+        <button type=" submit ">Update Employee</button>
+    </form>
+</div>
+<div class="con" id="deleteEmployee">
+    <form (submit)="deleteEmployee(+deletid.value) ">
+        <label>Employee ID: </label>
+        <input type="number" min=1 #deletid required>
+        <button type="submit ">Delet Employee</button>
+    </form>
+</div>

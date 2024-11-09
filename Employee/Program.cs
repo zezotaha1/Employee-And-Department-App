@@ -20,6 +20,17 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAnyOrigin",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -29,7 +40,14 @@ internal class Program
             app.UseSwaggerUI();
         }
 
+
+
         app.UseHttpsRedirection();
+        app.UseRouting();
+
+        // Enable CORS
+        app.UseCors("AllowAnyOrigin");
+
 
         app.UseAuthorization();
 

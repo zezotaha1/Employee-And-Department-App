@@ -10,23 +10,6 @@ namespace Employee.Model
         public DbSet<_Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
 
-
-        protected override void OnModelCreating (ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<_Employee>()
-                .HasOne(e => e.Manager)
-                .WithMany()
-                .HasForeignKey(e=>e.ManagerID)
-                .OnDelete(DeleteBehavior.Restrict);
-                ;
-
-            modelBuilder.Entity<Department>()
-                .HasOne(e => e.Manager)
-                .WithMany()
-                .HasForeignKey(e => e.ManagerID)
-                .OnDelete(DeleteBehavior.Restrict);
-            ;
-        }
         
     }
 }

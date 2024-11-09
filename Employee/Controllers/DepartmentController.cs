@@ -1,4 +1,5 @@
-﻿using Employee.Model;
+﻿using Employee.DTO;
+using Employee.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,23 @@ namespace Employee.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllDepartments()
         {
-            var departments = await _context.Departments.ToListAsync();
+            var deps = await _context.Departments.ToListAsync();
+
+            var departments = new departmentsDTO();
+            departments.departments = new List<departmentDTO>();
+            foreach (var e in deps)
+            {
+                if (e.Status == true)
+                {
+                    departments.departments.Add(new departmentDTO()
+                    {
+                        DepartmentID = e.DepartmentID,
+                        DepartmentName = e.DepartmentName,
+                        Location = e.Location,
+                        Status = e.Status
+                    });
+                }
+            }
             return Ok(departments);
         }
 
@@ -28,14 +45,21 @@ namespace Employee.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetDepartmentById(int id)
         {
-            var department = await _context.Departments.FirstOrDefaultAsync(d => d.DepartmentID == id&&d.Status==true);
-            if (department == null) return NotFound();
-            return Ok(department);
+            var department = await _context.Departments.FirstOrDefaultAsync(d => d.DepartmentID == id);
+            if (department == null) return BadRequest("this department not found");
+
+            return Ok(new departmentDTO()
+            {
+                DepartmentID = department.DepartmentID,
+                DepartmentName = department.DepartmentName,
+                Location = department.Location,
+                Status = department.Status
+            });
         }
 
         // POST: api/Department
         [HttpPost]
-        public async Task<ActionResult> AddDepartment(Department department)
+        public async Task<ActionResult> AddDepartment(departmentDTO department)
         {
             if (department == null)
             {
@@ -43,9 +67,14 @@ namespace Employee.Controllers
             }
             try
             {
-                _context.Departments.Add(department);
+                _context.Departments.Add(new Department()
+                {
+                    DepartmentName= department.DepartmentName,
+                    Location = department.Location,
+                    Status =true,
+                });
                 await _context.SaveChangesAsync();
-                return Ok(department);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -54,40 +83,48 @@ namespace Employee.Controllers
         }
 
         // PUT: api/Department/{id}
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateDepartment(int id, Department department)
+        [HttpPut]
+        public async Task<ActionResult> UpdateDepartment(departmentDTO department)
         {
             if (department == null)
             {
                 return BadRequest("Null Opject");
             }
-
-            if (id != department.DepartmentID) return BadRequest();
+            var dep = _context.Departments.SingleOrDefault(d => d.DepartmentID == department.DepartmentID);
+            if (dep == null)
+            {
+                return BadRequest("this department not found" );
+            }
 
             try
             {
+                
+                dep.DepartmentName= department.DepartmentName;
+                dep.Status = department.Status;
+                dep.Location = department.Location;
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Departments.Any(d => d.DepartmentID == id)) return NotFound();
+                if (!_context.Departments.Any(d => d.DepartmentID == department.DepartmentID)) return NotFound();
                 throw;
             }
 
-            return Ok("Updated Done");
+            return Ok();
         }
 
         // DELETE: api/Department/{id}
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteDepartment(int id)
         {
-            var department = await _context.Departments.FindAsync(id);
-            if (department == null) return NotFound();
+            var department =  _context.Departments.SingleOrDefault(d=>d.DepartmentID==id);
+            if (department == null) return BadRequest("this department not found");
 
-            department.Status=false;
+            department.Status = false;
 
             await _context.SaveChangesAsync();
-            return Ok("Deleted Done");
+            return Ok();
         }
     }
 }
